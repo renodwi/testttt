@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Generator Gambar CDN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #f3f3f3;
+        }
+        h2 { text-align: center; }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #aaa;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover { background: #0056b3; }
+
+        .images {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .images img {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+        .url-text {
+            font-size: 12px;
+            word-break: break-all;
+            margin-top: 5px;
+            background: #eee;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Generator Gambar CDN</h2>
+
+    <label>Nama:</label>
+    <input type="text" id="nama">
+
+    <label>Min:</label>
+    <input type="number" id="min">
+
+    <label>Max:</label>
+    <input type="number" id="max">
+
+    <button onclick="generate()">Generate</button>
+
+    <div class="images" id="result"></div>
+</div>
+
+<script>
+function generate() {
+    let nama = document.getElementById("nama").value.trim();
+    let min = parseInt(document.getElementById("min").value);
+    let max = parseInt(document.getElementById("max").value);
+
+    if (!nama || isNaN(min) || isNaN(max) || min > max) {
+        alert("Isi semua data dengan benar!");
+        return;
+    }
+
+    let huruf1 = nama.charAt(0).toLowerCase();
+    let huruf2 = nama.charAt(1)?.toLowerCase() || "_";
+
+    let container = document.getElementById("result");
+    container.innerHTML = "";
+
+    for (let i = min; i <= max; i++) {
+        let folderKelipatan = Math.ceil(i / 1000) * 1000; 
+        let padded = String(i).padStart(4, "0");
+
+        let url = `https://fapello.com/content/${huruf1}/${huruf2}/${nama}/${folderKelipatan}/${nama}_${padded}.jpg`;
+
+        let div = document.createElement("div");
+        div.innerHTML = `
+            <img src="${url}" alt="img">
+            <div class="url-text">${url}</div>
+        `;
+        container.appendChild(div);
+    }
+}
+</script>
+</body>
+</html>
