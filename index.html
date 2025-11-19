@@ -60,6 +60,32 @@
             padding: 5px;
             border-radius: 5px;
         }
+
+        /* Block kode copy */
+        .code-block {
+            margin-top: 30px;
+            background: #1e1e1e;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: Consolas, monospace;
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #28a745;
+            border: none;
+            padding: 6px 12px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .copy-btn:hover {
+            background: #1e7e34;
+        }
     </style>
 </head>
 <body>
@@ -78,6 +104,15 @@
     <button onclick="generate()">Generate</button>
 
     <div class="images" id="result"></div>
+
+    <!-- Block kode URLs -->
+    <div id="code-container" style="display:none;">
+        <div class="code-block" id="url-block">
+            <button class="copy-btn" onclick="copyURLs()">Copy</button>
+            <code id="url-list"></code>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -97,11 +132,13 @@ function generate() {
     let container = document.getElementById("result");
     container.innerHTML = "";
 
+    let urlList = "";
+
     for (let i = min; i <= max; i++) {
         let folderKelipatan = Math.ceil(i / 1000) * 1000; 
         let padded = String(i).padStart(4, "0");
 
-        let url = `https://fapello.com/content/${huruf1}/${huruf2}/${nama}/${folderKelipatan}/${nama}_${padded}.jpg`;
+        let url = `https://ren.com/content/${huruf1}/${huruf2}/${nama}/${folderKelipatan}/${nama}_${padded}.jpg`;
 
         let div = document.createElement("div");
         div.innerHTML = `
@@ -109,7 +146,21 @@ function generate() {
             <div class="url-text">${url}</div>
         `;
         container.appendChild(div);
+
+        urlList += url + "\n";
     }
+
+    // Tampilkan block kode + isi URL nya
+    document.getElementById("url-list").textContent = urlList;
+    document.getElementById("code-container").style.display = "block";
+}
+
+function copyURLs() {
+    let text = document.getElementById("url-list").textContent;
+
+    navigator.clipboard.writeText(text)
+        .then(() => alert("URL berhasil dicopy!"))
+        .catch(() => alert("Gagal menyalin teks."));
 }
 </script>
 </body>
