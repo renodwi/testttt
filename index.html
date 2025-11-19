@@ -1,4 +1,4 @@
-u<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -61,7 +61,13 @@ u<!DOCTYPE html>
             border-radius: 5px;
         }
 
-        /* Block kode copy */
+        .file-name {
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
         .code-block {
             margin-top: 30px;
             background: #1e1e1e;
@@ -105,7 +111,6 @@ u<!DOCTYPE html>
 
     <div class="images" id="result"></div>
 
-    <!-- Block kode URLs -->
     <div id="code-container" style="display:none;">
         <div class="code-block" id="url-block">
             <button class="copy-btn" onclick="copyURLs()">Copy</button>
@@ -133,24 +138,28 @@ function generate() {
     container.innerHTML = "";
 
     let urlList = "";
+    let loopIndex = 1;
 
     for (let i = min; i <= max; i++) {
         let folderKelipatan = Math.ceil(i / 1000) * 1000; 
         let padded = String(i).padStart(4, "0");
 
-        let url = `https://fapello.com/content/${huruf1}/${huruf2}/${nama}/${folderKelipatan}/${nama}_${padded}.jpg`;
+        let url = `https://ren.com/content/${huruf1}/${huruf2}/${nama}/${folderKelipatan}/${nama}_${padded}.jpg`;
+
+        let displayName = `${loopIndex}.jpg`;   // Nama file tampilan
 
         let div = document.createElement("div");
         div.innerHTML = `
-            <img src="${url}" alt="img">
+            <img src="${url}" alt="${displayName}">
+            <div class="file-name">${displayName}</div>
             <div class="url-text">${url}</div>
         `;
         container.appendChild(div);
 
         urlList += url + "\n";
+        loopIndex++;
     }
 
-    // Tampilkan block kode + isi URL nya
     document.getElementById("url-list").textContent = urlList;
     document.getElementById("code-container").style.display = "block";
 }
@@ -165,4 +174,3 @@ function copyURLs() {
 </script>
 </body>
 </html>
-
